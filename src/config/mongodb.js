@@ -6,7 +6,7 @@ export default class Connect {
     static instance;
     connection = new MongoClient(process.env.URI_MONGODB);
     collectionName = "usuarios";
-    dbName = NAMEDATABASE;
+    dbName = process.env.NAMEDATABASE;
     db;
 
     static getInstance() { 

@@ -16,34 +16,53 @@ db.createCollection("trainer", {
     }
 });
 
+use('db_incidencias');
+db.createCollection("area", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["nombre", "tipo", "dispositivos"],
+            properties: {
+                nombre: { enum: ['apolo', 'artemis', 'sputnik', 'skylab', 'corvus', 'endor'], description: "'nombre_area' no existe" },
+                tipo: { enum: ['training', 'review1', 'review2'], description: "'tipo_area' no existe" },
+                dispositivos: {
+                    bsonType: "array",
+                    items: {
+                        bsonType: "object",
+                        required: ["id", "marca", "modelo", "tipo", "idArea"],
+                        properties: {
+                            id: { bsonType: "string", description: "'id_dis' debe ser un string y es requerido" },
+                            marca: { bsonType: "string", description: "'marca_dis' debe ser un string" },
+                            modelo: { bsonType: "string", description: "'modelo_dis' debe ser un string y es requerido" },
+                            tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo_dis' no existe" },
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+use('db_incidencias');
 db.createCollection("incidencia", {
     validator: {
         $jsonSchema: {
             bsonType: "object",
-            required: ["id", "descripcion", "fecha", "categoria", "tipo"],
+            required: ["descripcion", "fecha", "categoria", "tipo", "area"],
             properties: {
-                id: { bsonType: "int", description: "'id_inc' debe ser un entero y es requerido" },
-                descripcion: { bsonType: "string", description: "'descrip_inc' debe ser un string y es requerido" },
-                fecha: { bsonType: "date", description: "'fecha_reporte' debe ser una fecha valida y es requerida" },
-                categoria: { enum: ['hardware', 'software'], description: "'categoria_inc' solo puede ser 'hardware' o 'software'" },
-                tipo: { enum: ['leve', 'moderada', 'critica'], description: "'tipo_inc' solo puede ser 'leve', 'moderada' o 'critica'" },
-                lugar: {
-                    bsonType: "object",
-                    required: ["nombre", "tipo"],
-                    properties: {
-                        nombre: { enum: ['apolo', 'artemis', 'sputnik', 'skylab', 'corvus', 'endor'], description: "'nombre_area' no existe" },
-                        tipo: { enum: ['training', 'review1', 'review2'], description: "'tipo_area' no existe" }
-                    }
-                },
+                descripcion: { bsonType: "string", description: "'descripcion' debe ser un string y es requerido" },
+                fecha: { bsonType: "date", description: "'fecha' debe ser una fecha válida y es requerida" },
+                categoria: { enum: ['hardware', 'software'], description: "'categoria' solo puede ser 'hardware' o 'software'" },
+                tipo: { enum: ['leve', 'moderada', 'critica'], description: "'tipo' solo puede ser 'leve', 'moderada' o 'critica'" },
+                area: { bsonType: "objectId", description: "Referencia al lugar por su _id" },
                 dispositivo: {
                     bsonType: "object",
-                    required: ["id", "marca", "modelo", "tipo", "idArea"],
+                    required: ["id", "marca", "modelo", "tipo"],
                     properties: {
-                        id: { bsonType: "string", description: "'id_dis' debe ser un string y es requerido" },
-                        marca: { bsonType: "string", description: "'marca_dis' debe ser un string" },
-                        modelo: { bsonType: "string", description: "'modelo_dis' debe ser un string y es requerido" },
-                        tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo_dis' no existe" },
-                        idArea: { bsonType: "string", description: "'id_area' debe ser un string y es requerido" }
+                        id: { bsonType: "string", description: "'id' debe ser un string y es requerido" },
+                        marca: { bsonType: "string", description: "'marca' debe ser un string" },
+                        modelo: { bsonType: "string", description: "'modelo' debe ser un string y es requerido" },
+                        tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo' no existe" },
                     }
                 }
             }
@@ -79,22 +98,18 @@ db.trainer.insertOne({
     "emailCorp": "juan.perez@empresa.com"
 });
 
+use('db_incidencias');
 db.incidencia.insertOne({
-    "id": 1,
-    "descripcion": "Problema con la conexión a internet",
+    "descripcion": "Problema con el teclado",
     "fecha": ISODate("2023-08-24T10:30:00Z"),
-    "categoria": "software",
+    "categoria": "hardware",
     "tipo": "moderada",
-    "lugar": {
-        "nombre": "apolo",
-        "tipo": "training"
-    },
+    "area": ObjectId("64e7d3d1a19b434323807c88"), 
     "dispositivo": {
         "id": "D123",
-        "marca": "HP",
-        "modelo": "Pavilion",
-        "tipo": "computador",
-        "idArea": "A001"
+        "marca": "Logitech",
+        "modelo": "K120",
+        "tipo": "teclado"
     }
 });
 
@@ -107,4 +122,27 @@ db.usuario.insertOne({
         "/usuarios": ["read", "write"]
     }
 });
+
+use('db_incidencias');
+db.area.insertOne({
+    "nombre": "apolo",
+    "tipo": "training",
+    "dispositivos": [
+        {
+            "id": "D001",
+            "marca": "HP",
+            "modelo": "Pavilion",
+            "tipo": "computador",
+            "idArea": "A001"
+        },
+        {
+            "id": "D002",
+            "marca": "Logitech",
+            "modelo": "K120",
+            "tipo": "teclado",
+            "idArea": "A001"
+        }
+    ]
+});
+
 
