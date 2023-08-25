@@ -10,7 +10,12 @@ db.createCollection("trainer", {
                 nombre: { bsonType: "string", description: "'nombre_tra' debe ser un string y es requerido" },
                 telefono: { bsonType: "string", description: "'telef_tra' solo puede contener numeros y es requerido", pattern: "^[0-9]+$" },
                 emailPersonal: { bsonType: "string", description: "'email_personal' es requerido" },
-                emailCorp: { bsonType: "string", description: "'email_corp' es requerido" }
+                emailCorp: { bsonType: "string", description: "'email_corp' es requerido" },
+                permisos: {
+                    bsonType: 'object',
+                    description: "Debe ingresar los permisos",
+                    patternProperties: { "": { bsonType: "int" } }
+                }
             }
         }
     }
@@ -92,7 +97,12 @@ db.trainer.insertOne({
     "nombre": "Juan Pérez",
     "telefono": "987654321",
     "emailPersonal": "juan@example.com",
-    "emailCorp": "juan.perez@empresa.com"
+    "emailCorp": "juan.perez@empresa.com",
+    "permisos": {
+        "/trainer": 1,
+        "/incidencias": 1,
+        "/area": 1
+    }
 });
 
 use('db_incidencias');
