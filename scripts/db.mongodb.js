@@ -51,10 +51,10 @@ db.createCollection("incidencia", {
             required: ["descripcion", "fecha", "categoria", "tipo", "area"],
             properties: {
                 descripcion: { bsonType: "string", description: "'descripcion' debe ser un string y es requerido" },
-                fecha: { bsonType: "date", description: "'fecha' debe ser una fecha válida y es requerida" },
+                fecha: { bsonType: "string", description: "'fecha' debe ser una fecha válida y es requerida" },
                 categoria: { enum: ['hardware', 'software'], description: "'categoria' solo puede ser 'hardware' o 'software'" },
                 tipo: { enum: ['leve', 'moderada', 'critica'], description: "'tipo' solo puede ser 'leve', 'moderada' o 'critica'" },
-                area: { bsonType: "objectId", description: "Referencia al lugar por su _id" },
+                area: { bsonType: "string", description: "Referencia al lugar por su _id" },
                 dispositivo: {
                     bsonType: "object",
                     required: ["id", "marca", "modelo", "tipo"],
@@ -62,7 +62,7 @@ db.createCollection("incidencia", {
                         id: { bsonType: "string", description: "'id' debe ser un string y es requerido" },
                         marca: { bsonType: "string", description: "'marca' debe ser un string" },
                         modelo: { bsonType: "string", description: "'modelo' debe ser un string y es requerido" },
-                        tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo' no existe" },
+                        tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo' no existe" }
                     }
                 }
             }
@@ -101,10 +101,10 @@ db.trainer.insertOne({
 use('db_incidencias');
 db.incidencia.insertOne({
     "descripcion": "Problema con el teclado",
-    "fecha": ISODate("2023-08-24T10:30:00Z"),
+    "fecha": "2023-08-24T10:30:00Z",
     "categoria": "hardware",
     "tipo": "moderada",
-    "area": ObjectId("64e7d3d1a19b434323807c88"), 
+    "area": "64e7d3d1a19b434323807c88", 
     "dispositivo": {
         "id": "D123",
         "marca": "Logitech",
