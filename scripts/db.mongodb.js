@@ -27,15 +27,12 @@ db.createCollection("area", {
                 tipo: { enum: ['training', 'review1', 'review2'], description: "'tipo_area' no existe" },
                 dispositivos: {
                     bsonType: "array",
-                    items: {
-                        bsonType: "object",
-                        required: ["id", "marca", "modelo", "tipo", "idArea"],
-                        properties: {
-                            id: { bsonType: "string", description: "'id_dis' debe ser un string y es requerido" },
-                            marca: { bsonType: "string", description: "'marca_dis' debe ser un string" },
-                            modelo: { bsonType: "string", description: "'modelo_dis' debe ser un string y es requerido" },
-                            tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo_dis' no existe" },
-                        }
+                    required: ["id", "marca", "modelo", "tipo", "idArea"],
+                    properties: {
+                        id: { bsonType: "string", description: "'id_dis' debe ser un string y es requerido" },
+                        marca: { bsonType: "string", description: "'marca_dis' debe ser un string" },
+                        modelo: { bsonType: "string", description: "'modelo_dis' debe ser un string y es requerido" },
+                        tipo: { enum: ['computador', 'teclado', 'mouse', 'diademas'], description: "'tipo_dis' no existe" },
                     }
                 }
             }
@@ -128,13 +125,6 @@ db.area.insertOne({
     "nombre": "apolo",
     "tipo": "training",
     "dispositivos": [
-        {
-            "id": "D001",
-            "marca": "HP",
-            "modelo": "Pavilion",
-            "tipo": "computador",
-            "idArea": "A001"
-        },
         {
             "id": "D002",
             "marca": "Logitech",
