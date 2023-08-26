@@ -93,15 +93,15 @@ db.createCollection("usuario", {
 
 use('db_incidencias');
 db.trainer.insertOne({
-    "cedula": "123456789",
-    "nombre": "Juan Pérez",
-    "telefono": "987654321",
+    "cedula": "1097094415",
+    "nombre": "Jose Nova",
+    "telefono": "123",
     "emailPersonal": "juan@example.com",
     "emailCorp": "juan.perez@empresa.com",
     "permisos": {
-        "/trainer": 1,
-        "/incidencias": 1,
-        "/area": 1
+        "/api/trainer": 1,
+        "/api/incidencias": 1,
+        "/api/area": 1
     }
 });
 

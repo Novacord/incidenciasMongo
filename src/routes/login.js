@@ -1,8 +1,8 @@
 import { Router } from "express";
-import Incidencias from "../services/incidencias.js"
+import Login from "../services/login.js"
 import { crearToken } from "../config/JWT.js"
 const router = Router()
 
-router.get('/token',)
+router.get('/token',crearToken,Login.postToken)
 
 export { router };

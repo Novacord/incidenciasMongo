@@ -7,6 +7,6 @@ router.use(passportHelper.initialize());
 
 const bearerAuth = passportHelper.authenticate('bearer', { session: false })
 
-router.post('/agregar/dispositivo/:id',bearerAuth, Area.postDispositivosArea)
+router.post('/agregar/dispositivo/:id', bearerAuth, Area.postDispositivosArea)
 
 export { router };

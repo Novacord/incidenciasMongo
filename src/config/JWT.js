@@ -28,7 +28,7 @@ export const validarToken = async (req, token) => {
             token,
             encoder.encode(process.env.JWT_PRIVATE_KEY)
         );
-        let result = await trainer("trainer").findOne(
+        let result = await trainer.findOne(
             {
                 _id: new ObjectId(jwtData.payload.id),
                 [`permisos.${req.baseUrl}`]: 1
